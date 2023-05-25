@@ -55,10 +55,7 @@
                 Department
             </label>
             <select [(ngModel)]="department" name="department" id="department" class="form-control"> 
-                <option value="1">Help Desk</option>
-                <option value="2">Service</option>
-                <option value="3">Sales</option>
-                <option value="4">Marketing</option>
+               <option *ngFor="let dept of departments" [value]="dept.id">{{dept.name}}</option>
             </select>                         
         </div>
     </div>
