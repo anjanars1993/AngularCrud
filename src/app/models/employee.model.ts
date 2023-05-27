@@ -1,22 +1,22 @@
 export class Employee {
-    id: number;
-    name: string;
-    gender: string;
-    email?: string;
-    phoneNumber?: number;
-    contactPreference: string;
-    dateOfBirth: Date;
-    department: string;
-    isActive: boolean;
-    photoPath?: string;
+    id: number|null;
+    name: string|null;
+    gender: string|null;
+    email?: string|null;
+    phoneNumber?: number|null;
+    contactPreference: string|null;
+    dateOfBirth: Date|null;
+    department: string|null;
+    isActive: boolean|null;
+    photoPath?: string|null;
 
    constructor() { 
-    this.id=1;
-    this.name="";
-    this.gender="";
-    this.contactPreference="";
-    this.dateOfBirth=new Date;
-    this.department="";
-    this.isActive=true;
+    this.id=null;
+    this.name=null;
+    this.gender=null;
+    this.contactPreference=null;
+    this.dateOfBirth=null;
+    this.department=null;
+    this.isActive=null;
     }
 }

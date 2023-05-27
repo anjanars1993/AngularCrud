@@ -1,44 +1,31 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Employee } from '../models/employee.model';
+import { EmployeeService } from './employee.service';
 
 @Component({
   templateUrl: './list-employees.component.html',
   styleUrls: ['./list-employees.component.css']
 })
-export class ListEmployeesComponent {
-employees:Employee[]=[
+export class ListEmployeesComponent implements OnInit{
+  employeeToDisplay:Employee=new Employee();
+  employees:Employee[]=[];
+  displayNumber:number=1;
+constructor(private _employeeService:EmployeeService){}
+  ngOnInit(): void {
+    this.employees=this._employeeService.getEmployees()
+    this.employeeToDisplay=this.employees[0];
+  }
+  NextEmployee()
   {
-    id: 1,
-    name: 'Mark',
-    gender: 'Male',
-    contactPreference: 'Email',
-    email: 'mark@pragimtech.com',
-    dateOfBirth: new Date('10/25/1988'),
-    department: 'IT',
-    isActive: true,
-    photoPath: 'assets/images/mark.png'
-  },
-  {
-    id: 2,
-    name: 'Mary',
-    gender: 'Female',
-    contactPreference: 'Phone',
-    phoneNumber: 2345978640,
-    dateOfBirth: new Date('11/20/1979'),
-    department: 'HR',
-    isActive: true,
-    photoPath: 'assets/images/mary.png'
-  },
-  {
-    id: 3,
-    name: 'John',
-    gender: 'Male',
-    contactPreference: 'Phone',
-    phoneNumber: 5432978640,
-    dateOfBirth: new Date('3/25/1976'),
-    department: 'IT',
-    isActive: false,
-    photoPath: 'assets/images/john.png'
-  },
-]
+    if(this.displayNumber>2)
+    {
+      this.employeeToDisplay=this.employees[0];
+      this.displayNumber=1;
+    }
+    else
+    {
+      this.employeeToDisplay=this.employees[this.displayNumber]
+      this.displayNumber++;
+    }   
+  }
 }

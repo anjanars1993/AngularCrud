@@ -1,6 +1,6 @@
 export class Department
 {
-    id:number;
+    id:number|null;
     name:string;
 
     constructor(){
