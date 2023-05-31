@@ -1,7 +1,19 @@
-<button class="btn btn-primary" (click)="NextEmployee()">Next Employee</button>
+<!-- <button class="btn btn-primary" (click)="NextEmployee()">Next Employee</button>
 <div>
   <app-display-employee [employee]="employeeToDisplay"></app-display-employee>
+</div> -->
+<h3>{{dispEmp.counter}}</h3>
+    <button type="button" (click)="MethodForChildComponent()">Add 1</button>
+<h1 #h1></h1>
+<div *ngFor="let employee of employees" class="pointer">
+  <div (click)="GoToEmployeeDetails(employee.id)">
+    <div (click)="h1.innerHTML=displayEmployee.employee.name?displayEmployee.employee.name:'null'">
+      <app-display-employee [employee]="employee" (notify)="HandleNotify($event)" #displayEmployee
+      ></app-display-employee>    
+    </div>
+  </div>
 </div>
-<!-- <div *ngFor="let employee of employees">
-  <app-display-employee [employee]="employee"></app-display-employee>
+<!-- <h1 *ngIf="selectedEmployee.name!=null && selectedEmployee.gender!=null">{{selectedEmployee.name}} - {{selectedEmployee.gender}}</h1>
+<div *ngFor="let employee of employees">
+  <app-display-employee [employee]="employee" (notify)="HandleNotify($event)"></app-display-employee>
 </div> -->

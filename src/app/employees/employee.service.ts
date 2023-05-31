@@ -3,6 +3,7 @@ import { Employee } from "../models/employee.model";
 
 @Injectable()
 export class EmployeeService{
+  employee:Employee=new Employee();
     private employees:Employee[]=[
         {
           id: 1,
@@ -40,6 +41,10 @@ export class EmployeeService{
       ]
       public getEmployees():Employee[]{
         return this.employees;
+      } 
+      public getEmployeeById(id:number):Employee{
+        this.employee=this.employees.find(x=>x.id==id)!;
+        return this.employee;
       } 
       public saveEmployees(employee:Employee){
         this.employees.push(employee);

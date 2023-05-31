@@ -1,4 +1,4 @@
-import { Component , ChangeDetectionStrategy} from '@angular/core';
+import { Component , ChangeDetectionStrategy, ViewChild} from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Department } from '../models/department.model';
 import {BsDatepickerConfig} from 'ngx-bootstrap/datepicker'
@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./create-employee.component.css']
 })
 export class CreateEmployeeComponent {
+  @ViewChild('employeeForm')empForm:NgForm=new NgForm([],[],undefined);
 employee:Employee;
   bsdateconfig:Partial<BsDatepickerConfig>
 departments:Department[]=[
