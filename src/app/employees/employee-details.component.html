@@ -69,7 +69,7 @@
     </div>
 </div>
 <div class="panel-footer">
-    <a class="btn btn-primary" type="button" [routerLink]="['/list']">Back to list</a>
-    <button class="btn btn-primary" type="button" (click)="NextEmployee()">Next Employee</button>
+    <a class="btn btn-primary" type="button" [routerLink]="['/list',{id:employee.id,name:employee.name}]">Back to list</a>
+    <button class="btn btn-primary pull-right" type="button" (click)="NextEmployee()">Next Employee</button>
 </div>
 </div>

@@ -14,13 +14,14 @@ import { CreateEmployeeComponent } from './employees/create-employee.component';
 import {SelectRequiredValidatorDirective} from './shared/select-required-validator.directive'
 import {PasswordValidatorDirective} from './shared/password-validator.directive';
 import { DisplayEmployeeComponent } from './employees/display-employee.component';
-import { EmployeeDetailsComponent } from './employees/employee-details.component'
+import { EmployeeDetailsComponent } from './employees/employee-details.component';
+import {SearchFilterPipe} from './shared/search-filter.pipe';
 
 const appRoutes:Routes=[
   {path:'list',component:ListEmployeesComponent},
   {path:'create',component:CreateEmployeeComponent,
     canDeactivate:[CanDeactivateGuardService]},
-  {path:'employee/:id',component:EmployeeDetailsComponent},
+  {path:'employee/:id/:name',component:EmployeeDetailsComponent},
   {path:'',redirectTo:'/list',pathMatch:'full'}
 ] ;
 
@@ -32,7 +33,8 @@ const appRoutes:Routes=[
     SelectRequiredValidatorDirective,
     PasswordValidatorDirective,
     DisplayEmployeeComponent,
-    EmployeeDetailsComponent
+    EmployeeDetailsComponent,
+    SearchFilterPipe
   ],
   imports: [
     BrowserModule,RouterModule.forRoot(appRoutes),FormsModule,BsDatepickerModule.forRoot(),

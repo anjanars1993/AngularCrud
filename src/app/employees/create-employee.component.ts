@@ -60,11 +60,21 @@ constructor(private _employeeService:EmployeeService,private _router:Router){
   //   console.log(empForm.value);
   // }
   saveEmployee():void{
-      console.log(this.employee);
-      this._employeeService.saveEmployees(this.employee);
+    debugger;
+      const newEmployee:Employee=Object.assign({},this.employee);
+      this._employeeService.saveEmployees(newEmployee);
+      newEmployee.id=+this._employeeService.getMaximumId()!+1
+      this.empForm.reset();
       this._router.navigate(['list']);
     }
   ToggleHideAndShow():void{
-this.showImage=!this.showImage;
+  this.showImage=!this.showImage;
+  }
+  ResetForm(empForm:NgForm)
+  {
+    this.empForm.reset({
+      name:'Anjana',
+      contactPreference:'phone'
+    });
   }
 }

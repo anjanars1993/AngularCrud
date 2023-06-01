@@ -11,6 +11,7 @@ import { Employee } from '../models/employee.model';
 export class EmployeeDetailsComponent implements OnInit{
   employee:Employee=new Employee();
   id:number=0;
+  name:string="";
 constructor(private _employeeService:EmployeeService,private _activatedRoute:ActivatedRoute,
   private _router:Router){
     
@@ -18,6 +19,7 @@ constructor(private _employeeService:EmployeeService,private _activatedRoute:Act
 ngOnInit() {
   this._activatedRoute.params.subscribe(val => {
     this.id = Number(val['id']);
+    this.name=val['name'];
     this.employee = this._employeeService.getEmployeeById(this.id);
   });
 }

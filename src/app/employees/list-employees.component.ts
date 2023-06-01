@@ -1,15 +1,33 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { Employee } from '../models/employee.model';
 import { EmployeeService } from './employee.service';
 import { DisplayEmployeeComponent } from './display-employee.component';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './list-employees.component.html',
   styleUrls: ['./list-employees.component.css']
 })
 export class ListEmployeesComponent implements OnInit{
-  @ViewChild('displayEmployee') dispEmp:DisplayEmployeeComponent=new DisplayEmployeeComponent;
+  //searchTerm:string;
+  fiteredEmployees:Employee[];
+  private _searchTerm:string;
+  get searchTerm():string{
+    return this._searchTerm;
+  }
+  set searchTerm(value:string)
+  {
+    this._searchTerm=value;
+    this.fiteredEmployees=this.FilterEmployees(value);
+  }
+  //moved the search-filter pipe logic to component
+  FilterEmployees(search:string)
+  {
+    return this.employees.filter(e=>
+      e.name?.toLocaleLowerCase().indexOf(search.toLocaleLowerCase())!==-1);
+  }
+  @ViewChild('displayEmployee') dispEmp:DisplayEmployeeComponent;
   employeeToDisplay:Employee=new Employee();
   employees:Employee[]=[];
   displayNumber:number=1;
@@ -18,6 +36,7 @@ constructor(private _employeeService:EmployeeService,private _router:Router){}
   ngOnInit(): void {
     this.employees=this._employeeService.getEmployees()
     this.employeeToDisplay=this.employees[0];
+    this.fiteredEmployees=this.employees
   }
   NextEmployee()
   {
@@ -41,8 +60,16 @@ constructor(private _employeeService:EmployeeService,private _router:Router){}
     this.dispEmp.inc();
 
   }
-  GoToEmployeeDetails(id:number|null)
+  GoToEmployeeDetails(id:number|null,name:string|null)
   {
-    this._router.navigate(['employee',id])
+    this._router.navigate(['employee',id,name])
+  }
+  ChangeEmployeeName()
+  {
+    this.employees[0].name='Jordan';
+    this.fiteredEmployees=this.FilterEmployees(this.searchTerm);
+    // const employeeCopy:Employee[]=Object.assign([],this.employees);
+    // employeeCopy[0].name='Jordan';
+    // this.employees=employeeCopy;
   }
 }

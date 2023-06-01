@@ -2,11 +2,21 @@
 <div>
   <app-display-employee [employee]="employeeToDisplay"></app-display-employee>
 </div> -->
-<h3>{{dispEmp.counter}}</h3>
+
+<h3>{{dispEmp?.counter}}</h3>
     <button type="button" (click)="MethodForChildComponent()">Add 1</button>
 <h1 #h1></h1>
-<div *ngFor="let employee of employees" class="pointer">
-  <div (click)="GoToEmployeeDetails(employee.id)">
+
+<input type="test" class="form-control" [(ngModel)]="searchTerm" placeholder="Search by name"
+style="width: 200px;">
+<br>
+<br>
+<button class="btn btn-primary" type="button" (click)="ChangeEmployeeName()">Change Employee Name</button>
+<br>
+<br>
+<!-- <div *ngFor="let employee of employees|employeeFilter:searchTerm" class="pointer" > -->
+  <div *ngFor="let employee of fiteredEmployees" class="pointer" >
+  <div (click)="GoToEmployeeDetails(employee.id,employee.name)">
     <div (click)="h1.innerHTML=displayEmployee.employee.name?displayEmployee.employee.name:'null'">
       <app-display-employee [employee]="employee" (notify)="HandleNotify($event)" #displayEmployee
       ></app-display-employee>    

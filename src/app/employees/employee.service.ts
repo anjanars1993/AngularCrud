@@ -46,6 +46,11 @@ export class EmployeeService{
         this.employee=this.employees.find(x=>x.id==id)!;
         return this.employee;
       } 
+      public getMaximumId():number|null{
+        debugger;
+        this.employee=this.employees.reduce((prev,current)=>prev.id!>current.id!?prev:current)        
+        return this.employee.id;
+      } 
       public saveEmployees(employee:Employee){
         this.employees.push(employee);
       } 

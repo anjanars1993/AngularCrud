@@ -1,5 +1,6 @@
-<div class="panel panel-primary" (click)="HandleNotify()">
-    <div class="panel-heading">
+<div class="panel panel-primary" [class.panel-success]="this.selectedEmployeeId==employee.id"
+(click)="HandleNotify()" >
+    <div class="panel-heading" >
         <h3 class="panel-title">
             {{employee.name}}
         </h3>
