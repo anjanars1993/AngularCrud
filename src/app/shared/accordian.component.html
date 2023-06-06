@@ -1,0 +1,13 @@
+<div class="panel panel-primary" [class.panel-success]="isJustViewed" >
+    <div class="panel-heading" pointerCursor (click)="hidden = !hidden">
+        <h3 class="panel-title">
+            {{title}}
+        </h3>
+    </div>
+    <div class="panel-body" [hidden]="hidden">
+        <ng-content select=".my-panel-body"></ng-content>
+    </div>
+    <div class="panel-footer" [hidden]="hidden">
+        <ng-content select=".my-panel-footer"></ng-content>
+    </div>
+</div>

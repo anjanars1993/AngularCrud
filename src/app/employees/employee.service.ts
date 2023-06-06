@@ -1,5 +1,9 @@
 import { Injectable } from "@angular/core";
 import { Employee } from "../models/employee.model";
+import {Observable} from 'rxjs/internal/Observable';
+import { of } from "rxjs";
+import { delay } from "rxjs/operators";
+
 
 @Injectable()
 export class EmployeeService{
@@ -39,19 +43,36 @@ export class EmployeeService{
           photoPath: 'assets/images/john.png'
         },
       ]
-      public getEmployees():Employee[]{
-        return this.employees;
+      public getEmployees():Observable<Employee[]>{
+        return of(this.employees).pipe(delay(1000));
       } 
       public getEmployeeById(id:number):Employee{
         this.employee=this.employees.find(x=>x.id==id)!;
         return this.employee;
       } 
       public getMaximumId():number|null{
-        debugger;
         this.employee=this.employees.reduce((prev,current)=>prev.id!>current.id!?prev:current)        
         return this.employee.id;
       } 
       public saveEmployees(employee:Employee){
-        this.employees.push(employee);
+        if(employee.id===null)
+        {
+          employee.id=+this.getMaximumId()!+1
+          this.employees.push(employee);
+        }
+        else
+        {  
+           const index=this.employees.findIndex(x=>x.id==employee.id);
+           this.employees[index]=employee;
+        }
       } 
+      public deleteEmployee(id:number|null)
+      {
+        debugger;
+        const index=this.employees.findIndex(x=>x.id==id);
+        if(index!==-1)
+        {
+          this.employees.splice(index,1);
+        }
+      }
 }

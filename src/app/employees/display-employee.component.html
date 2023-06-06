@@ -1,11 +1,6 @@
-<div class="panel panel-primary" [class.panel-success]="this.selectedEmployeeId==employee.id"
-(click)="HandleNotify()" >
-    <div class="panel-heading" >
-        <h3 class="panel-title">
-            {{employee.name}}
-        </h3>
-    </div>
-    <div class="panel-body">
+<app-accordian [isJustViewed]="this.selectedEmployeeId==employee.id" [title]="employee.name"
+[hidden]="true" (click)="HandleNotify()">
+    <div class="my-panel-body">
         <div class="col-xs-10">          
             <div class="row vertical-align">
                 <div class="col-xs-4">
@@ -69,4 +64,12 @@
             </div>               
         </div>
     </div>
-</div>
+    <div class="my-panel-footer">
+        <button class="btn btn-primary" (click)="GoToEmployeeDetails()">View</button>
+        <button class="btn btn-primary" (click)="EditEmployeeDetails()">Edit</button>
+        <button class="btn btn-danger"  (click)="confirmDelete=true">Delete</button>
+        <span *ngIf="confirmDelete">Are you sure you want to delete?</span>
+        <button class="btn btn-danger" *ngIf="confirmDelete" (click)="DeleteEmployee()">yes</button>
+        <button class="btn btn-primary" *ngIf="confirmDelete" (click)="confirmDelete=false">no</button>
+    </div>
+</app-accordian>

@@ -32,7 +32,9 @@ ngOnInit() {
       this.id = 1;
     }
 
-    this._router.navigate(['/employee', this.id]);
+    this._router.navigate(['/employee', this.id,this.name],
+    {queryParamsHandling:'preserve'}
+    );
     
   }
 

@@ -1,18 +1,19 @@
-import { Component , ChangeDetectionStrategy, ViewChild} from '@angular/core';
+import { Component , ChangeDetectionStrategy, ViewChild, OnInit} from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Department } from '../models/department.model';
 import {BsDatepickerConfig} from 'ngx-bootstrap/datepicker'
 import { Employee } from '../models/employee.model';
 import {EmployeeService} from '../employees/employee.service'
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './create-employee.component.html',
   styleUrls: ['./create-employee.component.css']
 })
-export class CreateEmployeeComponent {
-  @ViewChild('employeeForm')empForm:NgForm=new NgForm([],[],undefined);
+export class CreateEmployeeComponent implements OnInit {
+  panelTitle:string;
+  @ViewChild('employeeForm') empForm:NgForm;
 employee:Employee;
   bsdateconfig:Partial<BsDatepickerConfig>
 departments:Department[]=[
@@ -33,7 +34,8 @@ confirmPassword:string="";
 //   dateOfBirth?:Date;
 //   photoPath:string="";
 showImage:boolean=false;
-constructor(private _employeeService:EmployeeService,private _router:Router){
+constructor(private _employeeService:EmployeeService,private _router:Router,
+  private _activatedRoute:ActivatedRoute){
   this.bsdateconfig=Object.assign({},
     {
       containerClass:'theme-dark-blue',
@@ -41,29 +43,43 @@ constructor(private _employeeService:EmployeeService,private _router:Router){
       maxDate:new Date('2023,05,01'),
       dateInputFormat:'DD/MM/YYYY'
   });
-  this.employee={
-    id:null,
-    name:null,
-    gender:null,
-    email:null,
-    phoneNumber: null,
-    contactPreference:null,
-    dateOfBirth:null,
-    department:null,
-    isActive:null,
-    photoPath: null,
-  }
+ 
 
 }
+  ngOnInit(): void {
+    
+    this._activatedRoute.params.subscribe(params=>{
+      if(params['id']!=0)
+      {
+        this.panelTitle="Edit Employee"
+        this.employee=Object.assign({},this._employeeService.getEmployeeById(params['id']));
+      }
+      else
+      {
+        this.panelTitle="Create Employee"
+        this.employee={
+          id:null,
+          name:null,
+          gender:null,
+          email:null,
+          phoneNumber: null,
+          contactPreference:null,
+          dateOfBirth:null,
+          department:'select',
+          isActive:null,
+          photoPath: null,
+        }
+        this.empForm.reset();
+      }
+    })
+  }
   // saveEmployee(empForm:NgForm):void{
   //   console.log(empForm);
   //   console.log(empForm.value);
   // }
   saveEmployee():void{
-    debugger;
       const newEmployee:Employee=Object.assign({},this.employee);
       this._employeeService.saveEmployees(newEmployee);
-      newEmployee.id=+this._employeeService.getMaximumId()!+1
       this.empForm.reset();
       this._router.navigate(['list']);
     }
@@ -72,9 +88,11 @@ constructor(private _employeeService:EmployeeService,private _router:Router){
   }
   ResetForm(empForm:NgForm)
   {
-    this.empForm.reset({
-      name:'Anjana',
-      contactPreference:'phone'
+    debugger;
+    //empForm.resetForm();
+    empForm.resetForm({
+      fullName:'Anjana',
+      contactPreference:'Phone'
     });
   }
 }

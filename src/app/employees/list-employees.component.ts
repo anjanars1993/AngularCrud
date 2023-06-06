@@ -3,6 +3,7 @@ import { Employee } from '../models/employee.model';
 import { EmployeeService } from './employee.service';
 import { DisplayEmployeeComponent } from './display-employee.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { delay } from 'rxjs';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -11,7 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class ListEmployeesComponent implements OnInit{
   //searchTerm:string;
-  fiteredEmployees:Employee[];
+  fiteredEmployees:Employee[]=[];
   private _searchTerm:string;
   get searchTerm():string{
     return this._searchTerm;
@@ -32,11 +33,23 @@ export class ListEmployeesComponent implements OnInit{
   employees:Employee[]=[];
   displayNumber:number=1;
   selectedEmployee:Employee=new Employee();
-constructor(private _employeeService:EmployeeService,private _router:Router){}
+constructor(private _employeeService:EmployeeService,private _router:Router,private _activatedRoute:ActivatedRoute){}
   ngOnInit(): void {
-    this.employees=this._employeeService.getEmployees()
-    this.employeeToDisplay=this.employees[0];
-    this.fiteredEmployees=this.employees
+    this._employeeService.getEmployees().subscribe(emp=>{
+    console.log(emp)
+    this.employees=emp;   
+    this.employeeToDisplay=this.employees[0];    
+    if(this._activatedRoute.snapshot.queryParamMap.has('searchTerm'))
+    {
+      this.searchTerm=this._activatedRoute.snapshot.queryParamMap.get('searchTerm')!;
+    }
+    else
+    {
+      this.fiteredEmployees=this.employees;
+      console.log(this.fiteredEmployees)
+    }
+  })
+    
   }
   NextEmployee()
   {
@@ -62,7 +75,9 @@ constructor(private _employeeService:EmployeeService,private _router:Router){}
   }
   GoToEmployeeDetails(id:number|null,name:string|null)
   {
-    this._router.navigate(['employee',id,name])
+    this._router.navigate(['employee',id,name],{
+      queryParams:{'searchTerm':this.searchTerm,'testParam':'testParam'}
+    })
   }
   ChangeEmployeeName()
   {

@@ -5,9 +5,10 @@
         <a routerLink="list">list</a>
       </li>
       <li class="routerLinkActive">
-        <a routerLink="create">create</a>
+        <a routerLink="edit/0">create</a>
       </li>
     </ul>
   </div>
+  <div *ngIf="loader" class="spinner"></div>
   <router-outlet></router-outlet>
 </div>
