@@ -1,29 +1,92 @@
-# AngularCrud
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.2.
-
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
 
 list-component is old one, using test-component for list employees currently.
+
+
+npm install -g json-server
+json-server --watch db.json
+
+{
+  "employees": [
+    {
+      "id": "1",
+      "name": "Nick123",
+      "gender": "Male",
+      "contactPreference": "Email",
+      "email": "mark@pragimtech.com",
+      "dateOfBirth": "10/25/1988",
+      "department": "1",
+      "isActive": true,
+      "photoPath": "assets/images/mark.png"
+    },
+    {
+      "id": "2",
+      "name": "Mary",
+      "gender": "Female",
+      "contactPreference": "Phone",
+      "phoneNumber": "2345978640",
+      "dateOfBirth": "11/20/1979",
+      "department": "2",
+      "isActive": true,
+      "photoPath": "assets/images/mary.png"
+    },
+    {
+      "id": "3",
+      "name": "John",
+      "gender": "Male",
+      "contactPreference": "Phone",
+      "phoneNumber": "5432978640",
+      "dateOfBirth": "3/25/1976",
+      "department": "3",
+      "isActive": false,
+      "photoPath": "assets/images/john.png"
+    },
+    {
+      "id": 4,
+      "name": "AnjanaRS",
+      "gender": "Female",
+      "email": "anjanars1993@gmail.com",
+      "phoneNumber": "1234567",
+      "contactPreference": "Phone",
+      "dateOfBirth": "2023-04-30T18:30:00.000Z",
+      "department": "3",
+      "isActive": true,
+      "photoPath": "assets/images/john.png"
+    },
+    {
+      "id": 5,
+      "name": "Mary1",
+      "gender": "Female",
+      "email": "anjanar@qburst.com",
+      "phoneNumber": "dddddd",
+      "contactPreference": "Email",
+      "dateOfBirth": "2023-04-30T18:30:00.000Z",
+      "department": "2",
+      "isActive": true,
+      "photoPath": "assets/images/mary.png"
+    },
+    {
+      "id": 6,
+      "name": "dadadf",
+      "gender": "Female",
+      "email": "sdasadsa",
+      "phoneNumber": "dddddd",
+      "contactPreference": "Phone",
+      "dateOfBirth": "2023-04-30T18:30:00.000Z",
+      "department": "3",
+      "isActive": true,
+      "photoPath": "assets/images/john.png"
+    },
+    {
+      "id": 7,
+      "name": "ghi",
+      "gender": "Male",
+      "email": "anjanars1993@gmail.com",
+      "phoneNumber": "1234567",
+      "contactPreference": "Phone",
+      "dateOfBirth": "2023-04-30T18:30:00.000Z",
+      "department": "4",
+      "isActive": true,
+      "photoPath": "assets/images/mary.png"
+    }
+  ]
+}
