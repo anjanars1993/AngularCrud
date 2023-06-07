@@ -10,21 +10,40 @@ export class EmployeeDetailsCanActivateGuard implements CanActivate{
     constructor(private _router:Router,private _employeeService: EmployeeService)
     {
     }
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):  boolean
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):  any
     {
        
         debugger;
-        this.employee=this._employeeService.getEmployeeById(
-            Number(route.paramMap.get('id')));
-        if(this.employee!=null)
-        {
-            return true;
-        }           
-        else
-        {
-            this._router.navigate(['notfound']);
-            return false;
-        }
+        const id=Number(route.paramMap.get('id'));
+        this._employeeService.getEmployeeById(id).subscribe({
+            next: (emp) => { 
+              this.employee=emp;
+              if(this.employee!=null)
+                {
+                    return true;
+                }           
+                else
+                {
+                    this._router.navigate(['notfound']);
+                    return false;
+                }
+            },
+            error: (e) => {console.log(e);
+                return false;}
+           
+            })
+          
+        // this.employee=this._employeeService.getEmployeeById(
+        //     Number(route.paramMap.get('id')));
+        // if(this.employee!=null)
+        // {
+        //     return true;
+        // }           
+        // else
+        // {
+        //     this._router.navigate(['notfound']);
+        //     return false;
+        // }
 
     }
 }

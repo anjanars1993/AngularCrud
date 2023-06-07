@@ -5,12 +5,12 @@
         {{panelTitle}}
     </div>
     <div class="panel-body">
-        <div class="form-group" [class.has-error]="fullnamecontrol.invalid && fullnamecontrol.touched"
-        [class.has-success]="fullnamecontrol.valid">
+        <div class="form-group" [class.has-error]="fullName.invalid && fullName.touched"
+        [class.has-success]="fullName.valid">
             <label for="fullName" class="control-label">Full Name</label>
             <input  class="form-control" required type="text" id="fullName" [(ngModel)]="employee.name" name="fullName" 
-            #fullnamecontrol="ngModel">
-            <span class="help-block" *ngIf="fullnamecontrol.invalid && fullnamecontrol.touched">Fullname is required</span>
+            #fullName="ngModel">
+            <span class="help-block" *ngIf="fullName.invalid && fullName.touched">Fullname is required</span>
         </div>
         <div class="form-group" [class.has-error]="email.invalid && contactPreference.value=='Email'" 
         [class.has-success]="email.valid && contactPreference.value=='Email'">
@@ -208,3 +208,4 @@ Angular Generated Form Model: {{employeeForm.value|json}}
 <br>
 <br>
 Our Form Model: {{employee|json}}
+<div *ngIf="showLoader" class="spinner"></div>

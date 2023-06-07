@@ -52,13 +52,20 @@ constructor(private _employeeService:EmployeeService,private _router:Router,
       if(params['id']!=0)
       {
         this.panelTitle="Edit Employee"
-        this.employee=Object.assign({},this._employeeService.getEmployeeById(params['id']));
+        // this.employee=Object.assign({},this._employeeService.getEmployeeById(params['id']));
+        this._employeeService.getEmployeeById(params['id']).subscribe({
+          next: (emp) => { 
+            this.employee=Object.assign({},emp);
+          },
+          error: (e) => console.log(e),
+          complete: () => console.info('complete') 
+          })
       }
       else
       {
         this.panelTitle="Create Employee"
         this.employee={
-          id:null,
+          id:0,
           name:null,
           gender:null,
           email:null,
@@ -69,7 +76,7 @@ constructor(private _employeeService:EmployeeService,private _router:Router,
           isActive:null,
           photoPath: null,
         }
-        this.empForm.reset();
+        this.empForm?.reset();
       }
     })
   }
@@ -77,11 +84,43 @@ constructor(private _employeeService:EmployeeService,private _router:Router,
   //   console.log(empForm);
   //   console.log(empForm.value);
   // }
+showLoader:boolean=false;
   saveEmployee():void{
-      const newEmployee:Employee=Object.assign({},this.employee);
-      this._employeeService.saveEmployees(newEmployee);
-      this.empForm.reset();
-      this._router.navigate(['list']);
+    
+      // const newEmployee:Employee=Object.assign({},this.employee);
+      // this._employeeService.saveEmployees(newEmployee);
+      // this.empForm.reset();
+      // this._router.navigate(['list']);
+      if(this.employee.id==0)
+      {
+        this._employeeService.getEmployees().subscribe(data => {
+          const maxId=Math.max.apply(Math,data.map(obj => obj.id)); 
+          const newEmployee:Employee=this.employee;
+          newEmployee.id=maxId+1;
+        this._employeeService.saveEmployees(newEmployee)?.subscribe(
+          (emp)=>{
+           console.log(emp);
+            this.empForm.reset();
+            this._router.navigate(['list']);
+          }
+        )
+        })
+      }
+     else
+     {
+      const newEmployee:Employee=this.employee;
+      this._employeeService.updateEmployees(newEmployee).subscribe({
+        
+      next: () => { 
+        this.empForm.reset();
+        this._router.navigate(['list']);
+      },
+      error: (e) => console.log(e),
+      complete: () => console.info('complete') 
+      })
+      
+     }
+    
     }
   ToggleHideAndShow():void{
   this.showImage=!this.showImage;

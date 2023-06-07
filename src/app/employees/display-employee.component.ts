@@ -66,7 +66,14 @@ EditEmployeeDetails()
 DeleteEmployee()
 {
   debugger;
-  this._employeeService.deleteEmployee(this.employee.id);
+  this._employeeService.deleteEmployee(this.employee.id).subscribe({
+    next: () => { 
+      console.log("Employee with id "+this.employee.id+" is deleted")
+    },
+    error: (e) => console.log(e),
+    complete: () => console.info('complete') 
+    }
+  );
   this.deleteNotify.emit(this.employee.id);
 }
 @Output() deleteNotify:EventEmitter<number|null>=new EventEmitter<number|null>()

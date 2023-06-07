@@ -1,5 +1,5 @@
 export class Employee {
-    id: number|null;
+    id: number;
     name: string|null;
     gender: string|null;
     email?: string|null;
@@ -11,8 +11,6 @@ export class Employee {
     photoPath?: string|null;
 
    constructor() { 
-    this.id=null;
-    this.name=null;
     this.gender=null;
     this.contactPreference=null;
     this.dateOfBirth=null;

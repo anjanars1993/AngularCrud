@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/
 import { Employee } from '../models/employee.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DisplayEmployeeComponent } from './display-employee.component';
+import { ResolvedEmployeeList } from '../models/resolvedEmployeeList.model';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -32,9 +33,31 @@ export class EmployeeTestComponent implements OnInit{
       e.name?.toLocaleLowerCase().indexOf(search.toLocaleLowerCase())!==-1);
   }
   employees:Employee[]=[];
+  error:String;
   constructor(private _router:Router,
     private _activatedRoute:ActivatedRoute){
-      this.employees=this._activatedRoute.snapshot.data['employeeList'];
+      //if service is fine // this.employees=this._activatedRoute.snapshot.data['employeeList'];
+      
+      //if we want to use ResolvedEmployeeList to resolve error
+      // const resolvedEmployeeList:ResolvedEmployeeList=this._activatedRoute.snapshot.data['employeeList'];
+      // if(resolvedEmployeeList._list!=null)
+      // {
+      //   this.employees=resolvedEmployeeList._list;
+      // }
+      // else
+      // {
+      //   this.error=resolvedEmployeeList._error;
+      // }
+
+      //if we want to use Employee[]|string to resolve error
+      if(this._activatedRoute.snapshot.data['employeeList'] instanceof Array)
+      {
+        this.employees=this._activatedRoute.snapshot.data['employeeList'];
+      }
+      else
+      {
+        this.error=this._activatedRoute.snapshot.data['employeeList'];
+      }
       this.employeeToDisplay=this.employees[0];  
       if(this._activatedRoute.snapshot.queryParamMap.has('searchTerm'))
       {
@@ -43,7 +66,7 @@ export class EmployeeTestComponent implements OnInit{
       else
       {
         this.fiteredEmployees=this.employees;
-        console.log(this.fiteredEmployees)
+       
       }
     }
   

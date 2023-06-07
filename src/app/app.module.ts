@@ -22,6 +22,7 @@ import {SearchFilterPipe} from './shared/search-filter.pipe';
 import { EmployeeTestComponent } from './employees/employee-test.component';
 import { PageNotFoundComponent } from './employees/page-not-found.component';
 import { AccordianComponent } from './shared/accordian.component';
+import {HttpClientModule} from '@angular/common/http'
 
 const appRoutes:Routes=[
   {path:'list',component:EmployeeTestComponent,
@@ -50,7 +51,7 @@ canActivate:[EmployeeDetailsCanActivateGuard]},
   ],
   imports: [
     BrowserModule,RouterModule.forRoot(appRoutes),FormsModule,BsDatepickerModule.forRoot(),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,HttpClientModule
   ],
   providers: [EmployeeService,CanDeactivateGuardService,ListEmployeesResolveGuard,
     EmployeeDetailsCanActivateGuard],

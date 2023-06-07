@@ -2,11 +2,16 @@ import { Injectable } from "@angular/core";
 import { Employee } from "../models/employee.model";
 import {Observable} from 'rxjs/internal/Observable';
 import { of } from "rxjs";
-import { delay } from "rxjs/operators";
+import { catchError, delay, max } from "rxjs/operators";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http"
+import { throwError } from 'rxjs';
 
 
 @Injectable()
 export class EmployeeService{
+  constructor(private _http:HttpClient){
+
+  }
   employee:Employee=new Employee();
     private employees:Employee[]=[
         {
@@ -44,35 +49,76 @@ export class EmployeeService{
         },
       ]
       public getEmployees():Observable<Employee[]>{
-        return of(this.employees).pipe(delay(1000));
+        //return of(this.employees).pipe(delay(1000));
+        return this._http.get<Employee[]>("http://localhost:3000/employees")
+        .pipe(catchError(this.HandlError),delay(1000));
       } 
-      public getEmployeeById(id:number):Employee{
-        this.employee=this.employees.find(x=>x.id==id)!;
-        return this.employee;
+      private HandlError(err:HttpErrorResponse)
+      {
+        if(err.error instanceof ErrorEvent)
+        {
+          console.log("clent side error: " + err.error.message)
+        }
+        else
+        {
+          console.log("server side error: " + err.error.message)
+        }
+        return throwError(() => new Error('There is a problem in the service. We are noticed and working on resolving it asap.'))
+        
+
+      }
+      public getEmployeeById(id:number):Observable<Employee>{
+        return this._http.get<Employee>("http://localhost:3000/employees/"+id)
+        .pipe(catchError(this.HandlError));
+        // this.employee=this.employees.find(x=>x.id==id)!;
+        // return this.employee;
       } 
+
+      //not in use
       public getMaximumId():number|null{
+       
         this.employee=this.employees.reduce((prev,current)=>prev.id!>current.id!?prev:current)        
         return this.employee.id;
       } 
-      public saveEmployees(employee:Employee){
-        if(employee.id===null)
-        {
-          employee.id=+this.getMaximumId()!+1
-          this.employees.push(employee);
-        }
-        else
-        {  
-           const index=this.employees.findIndex(x=>x.id==employee.id);
-           this.employees[index]=employee;
-        }
+
+      public saveEmployees(employee:Employee):Observable<Employee>|undefined{
+        // if(employee.id===null)
+        // {
+          // employee.id=+this.getMaximumId()!+1
+          // this.employees.push(employee);
+          
+          return this._http.post<Employee>("http://localhost:3000/employees",employee)
+          .pipe(catchError(this.HandlError))
+        //}
+        // else
+        // {  
+        //    const index=this.employees.findIndex(x=>x.id==employee.id);
+        //    this.employees[index]=employee;
+        // }
       } 
-      public deleteEmployee(id:number|null)
+      public updateEmployees(employee:Employee):Observable<void>{
+        // if(employee.id===null)
+        // {
+          // employee.id=+this.getMaximumId()!+1
+          // this.employees.push(employee);
+          
+          return this._http.put<void>("http://localhost:3000/employees/"+employee.id,employee)
+          .pipe(catchError(this.HandlError))
+        //}
+        // else
+        // {  
+        //    const index=this.employees.findIndex(x=>x.id==employee.id);
+        //    this.employees[index]=employee;
+        // }
+      } 
+      public deleteEmployee(id:number|null):Observable<void>
       {
-        debugger;
-        const index=this.employees.findIndex(x=>x.id==id);
-        if(index!==-1)
-        {
-          this.employees.splice(index,1);
-        }
+        return this._http.delete<void>("http://localhost:3000/employees/"+id)
+        .pipe(catchError(this.HandlError));
+        // const index=this.employees.findIndex(x=>x.id==id);
+        // if(index!==-1)
+        // {
+        //   this.employees.splice(index,1);
+        // }
       }
 }

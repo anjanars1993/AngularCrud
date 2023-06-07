@@ -36,7 +36,7 @@ export class ListEmployeesComponent implements OnInit{
 constructor(private _employeeService:EmployeeService,private _router:Router,private _activatedRoute:ActivatedRoute){}
   ngOnInit(): void {
     this._employeeService.getEmployees().subscribe(emp=>{
-    console.log(emp)
+   
     this.employees=emp;   
     this.employeeToDisplay=this.employees[0];    
     if(this._activatedRoute.snapshot.queryParamMap.has('searchTerm'))
@@ -46,7 +46,7 @@ constructor(private _employeeService:EmployeeService,private _router:Router,priv
     else
     {
       this.fiteredEmployees=this.employees;
-      console.log(this.fiteredEmployees)
+     
     }
   })
     
