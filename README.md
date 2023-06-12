@@ -90,3 +90,6 @@ json-server --watch db.json
     }
   ]
 }
+
+
+npm install bootstrap@latest --legacy-peer-deps
