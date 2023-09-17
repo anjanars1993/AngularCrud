@@ -50,7 +50,7 @@ export class EmployeeService{
       ]
       public getEmployees():Observable<Employee[]>{
         //return of(this.employees).pipe(delay(1000));
-        return this._http.get<Employee[]>("http://localhost:3000/employees")
+        return this._http.get<Employee[]>("https://localhost:44369/api/EmployeesPrimaryData")
         .pipe(catchError(this.HandlError),delay(1000));
       } 
       private HandlError(err:HttpErrorResponse)
@@ -68,7 +68,7 @@ export class EmployeeService{
 
       }
       public getEmployeeById(id:number):Observable<Employee>{
-        return this._http.get<Employee>("http://localhost:3000/employees/"+id)
+        return this._http.get<Employee>("https://localhost:44369/api/EmployeesPrimaryData/"+id)
         .pipe(catchError(this.HandlError));
         // this.employee=this.employees.find(x=>x.id==id)!;
         // return this.employee;
@@ -87,7 +87,7 @@ export class EmployeeService{
           // employee.id=+this.getMaximumId()!+1
           // this.employees.push(employee);
           
-          return this._http.post<Employee>("http://localhost:3000/employees",employee)
+          return this._http.post<Employee>("https://localhost:44369/api/EmployeesPrimaryData",employee)
           .pipe(catchError(this.HandlError))
         //}
         // else
@@ -102,7 +102,7 @@ export class EmployeeService{
           // employee.id=+this.getMaximumId()!+1
           // this.employees.push(employee);
           
-          return this._http.put<void>("http://localhost:3000/employees/"+employee.id,employee)
+          return this._http.put<void>("https://localhost:44369/api/EmployeesPrimaryData/"+employee.id,employee)
           .pipe(catchError(this.HandlError))
         //}
         // else
@@ -113,7 +113,7 @@ export class EmployeeService{
       } 
       public deleteEmployee(id:number|null):Observable<void>
       {
-        return this._http.delete<void>("http://localhost:3000/employees/"+id)
+        return this._http.delete<void>("https://localhost:44369/api/EmployeesPrimaryData/"+id)
         .pipe(catchError(this.HandlError));
         // const index=this.employees.findIndex(x=>x.id==id);
         // if(index!==-1)
