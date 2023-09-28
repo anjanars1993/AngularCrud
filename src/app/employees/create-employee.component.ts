@@ -39,9 +39,12 @@ constructor(private _employeeService:EmployeeService,private _router:Router,
   this.bsdateconfig=Object.assign({},
     {
       containerClass:'theme-dark-blue',
-      minDate:new Date('2023,02,01'),
-      maxDate:new Date('2023,05,01'),
-      dateInputFormat:'DD/MM/YYYY'
+      minDate:new Date('1960,02,01'),
+      maxDate:new Date('2003,01,01'),
+      dateInputFormat:'YYYY-MM-DD',
+      //useUtc:true,
+      withTimepicker: false
+
   });
  
 
@@ -56,6 +59,7 @@ constructor(private _employeeService:EmployeeService,private _router:Router,
         this._employeeService.getEmployeeById(params['id']).subscribe({
           next: (emp) => { 
             this.employee=Object.assign({},emp);
+            
           },
           error: (e) => console.log(e),
           complete: () => console.info('complete') 
